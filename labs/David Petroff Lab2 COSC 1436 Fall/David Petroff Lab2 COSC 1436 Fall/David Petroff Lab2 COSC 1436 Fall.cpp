@@ -5,6 +5,8 @@ Lab 2
 9/23/25
 */
 #include <iostream>
+#include <iomanip>
+#include <cmath>
 using namespace std;
 
 
