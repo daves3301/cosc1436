@@ -2,13 +2,14 @@
 #include <string>
 #include <cmath>
 #include <iomanip>
+using namespace std;
 void main()
 {
     std::cout << "enter values for x and y: ";
     double x, y;
     std::cin >> x >> y;
     
-    std::cout << "Function" << "x" << "y" << "Result" << std::endl;
+   /* std::cout << "Function" << "x" << "y" << "Result" << std::endl;
     std::cout << "-------------------------------------" << std::endl;
 
     std::cout << "pow " << x << y << pow(x, y) << std::endl;
@@ -102,4 +103,30 @@ void ExpressionDemo()
     VALUE PERCISION:
     USE SET PERCISION- will format each of your floating point values to that percision.(std::setpercision(?))
     */
+
+
+        cout << "is this a classic (y/n)? ";
+    std::string input;
+        cin >> input;
+    if (_strcmpi(input.c_str(), "y") == 0)
+        isClassic = true;
+    else 
+        if (_strcmpi(input.c_str(), "n") == 0)
+        isClassic = false;
+    else
+        cout << "you must enter either y or n";
 }
+    void relationalDemo()
+{
+    cout << "enter two values: ";
+    int left, right;
+    cin >> left >> right
+
+    }
+    cout << "enter an optional user rating (1.0 - 10.0): ";
+    cin >> userRating;
+    if (userRating < 1.0)
+    {
+        cout << "Rating must be between 1.0 and 10.0" << endl;
+        userRating = 1.0;
+    }
