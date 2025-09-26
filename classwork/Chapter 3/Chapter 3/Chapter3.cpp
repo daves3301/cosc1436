@@ -1,132 +1,207 @@
+
 #include <iostream>
 #include <string>
-#include <cmath>
-#include <iomanip>
-using namespace std;
-void main()
+int main()
 {
-    std::cout << "enter values for x and y: ";
-    double x, y;
-    std::cin >> x >> y;
-    
-   /* std::cout << "Function" << "x" << "y" << "Result" << std::endl;
-    std::cout << "-------------------------------------" << std::endl;
+    //display main menu
+    std::cout << "movie library" << std::endl;
+    std::cout << "-----------------" << std::endl;
+    std::cout << "add movie" << std::endl;
+    std::cout << "V) view movie" << std::endl;
+    std::cout << "E) edit movie" << std::endl;
+    std::cout << "D) delete movie" << std::endl;
+    std::cout << "Q)quit" << std::endl;
 
-    std::cout << "pow " << x << y << pow(x, y) << std::endl;
-    std::cout << "sqrt " << x << y << sqrt(x, y) << std::endl;
-   
-    std::cout << "ceil " << x << y << ceil(x, y) << std::endl;
-    std::cout << "floor " << x << y << floor(x, y) << std::endl;
+    std:: string choice;
+    std::cin >> choice;
 
-    std::cout << "round " << x << y << round(x, y) << std::endl;
-    std::cout << "trunc " << x << y << trunc(x, y) << std::endl;
-}
-void ExpressionDemo()
-{    
-//*this code is not perfect be weary when studying, it has some sloppiness
-   
-    //promt user for radius of circle.
-    std::cout << "Enter radius";
-
-    //cin is used for input from user.
-    int radius = 0;
-    std::cin >> radius;
-
-    
-    //area = pi * r^2
-    const double Pi = 3.14159;
-    double area = Pi * radius * radius; 
-    std::cout << "Ares = " << Pi << "*" << radius << "*" << radius << std::endl;
-    std::cout << "Area = " << area << std::endl;
-
-
-    //triangle 
-    //area = 1/2 base * height
-
-    std::cout << "Enter base and height of triangle";
-    int base = 0, height = 0;
-    std::cin >> base;
-    std::cin >> height;
-    
-    
-    area = (1 / 2) * base * height; 
-    std::cout << "Area = " << area << std::endl;
-    
-    std::cout << "Enter name"; 
-    //getline reads strings with spaces in them line and puts it into variable.
-    //std::cin.ignore(), will throw out anything in the input buffer.
-    std::string name;
-    std::getline(std::cin, name);
-    std::cin >> name;
-    std::cout << name << std::endl;
-
-
-    //overflow and underflow 
-    short smallValue = 32767;
-    smallValue = smallValue + 1;
-    std::cout << smallValue << std::endl;
-
-    short largeValue = -32768;
-    largeValue = largeValue - 1;
-
-    std::cout << smallValue << " " << largeValue << std::endl;
-
-    //type coersion compiler implicitly converts an E to another type.doesnt care about how your going to use the type of the result (it is right associative).
-    //type casting : when you explicitly covert an expressions type to another type.
-    int left = 10;
-    int right = 3;
-    int intDivision = 10 / 3; //gives you an int
-    //want a fraction? make one of the numbers a double or .0 on the end 
-    double intDivison = 10 / 3.0; // gives you double
-    //if your dealing with variables, go off how you expect to STORE IN THE VARIABLE. never change the type based on the outcome you want. 
-    //type casting:
-    intDivision = (double) left / right; // change the type proceeding your variable. THIS IS CALLED A "C-CAST." either side it doesnt matter.
-    //alternate approach:
-    static_cast<double>(left) / right; //both will have same effect.
-
-    //setting percise decimal places for your outputs or anything else use std::setprecision,and std::fixed, THIS REQUIRES #INCLUDE <IOMANIP>
-
-
-    //to include higher level math functions USE #inlcude <cmath>
-    //math functions
-    // pow(x, y) = power X to the Y power: the number then the power you want to raise it to. 
-
-
-    /*
-    YES OR NO QUESTIONS REQUIRE #include <cctype>, then use a do while loop.
-    //
-    MANIPULATORS:
-    
-    can use std::setw(?) to determine a number of spaces in an output
-    you can also left or right align your setw outputs, proceed your functions with std::left or right, once applied they remain in place unless switched.
-    std::setfill --padding value (persistent), can be used for hiding passwords 
-    VALUE PERCISION:
-    USE SET PERCISION- will format each of your floating point values to that percision.(std::setpercision(?))
-    */
-
-
-        cout << "is this a classic (y/n)? ";
-    std::string input;
-        cin >> input;
-    if (_strcmpi(input.c_str(), "y") == 0)
-        isClassic = true;
-    else 
-        if (_strcmpi(input.c_str(), "n") == 0)
-        isClassic = false;
-    else
-        cout << "you must enter either y or n";
-}
-    void relationalDemo()
-{
-    cout << "enter two values: ";
-    int left, right;
-    cin >> left >> right
-
-    }
-    cout << "enter an optional user rating (1.0 - 10.0): ";
-    cin >> userRating;
-    if (userRating < 1.0)
+    if (choice == "V" || choice == "v")
     {
-        cout << "Rating must be between 1.0 and 10.0" << endl;
-        userRating = 1.0;
+    std::cout << " Not implimented" << std::endl;
     }
+    if (choice == "E" || choice == "e")
+    {
+    std::cout << " Not implimented" << std::endl;
+    }
+    if (choice == "D" || choice == "d")
+    {
+    std::cout << " Not implimented" << std::endl;
+    }
+    if (choice == "Q" || choice == "q")
+    {
+        return 0;
+    } else
+    {
+        std::cout << "invalid choice" << std::endl;
+    };
+//validate input
+ 
+    //Movie details
+    std::string title;          //Required
+    std::string description;    //Optional
+    int runLength;              //Required, 0
+    int releaseYear;            //Optional, but between 1900-2100
+    double userRating;          //Optional, 1.0-10.0
+    bool isClassic;             //Required, false
+
+    //Get movie details
+    std::cout << "Enter movie title: ";
+    std::getline(std::cin, title);
+
+    //Title is required
+    bool isEmpty = title == "";
+    if (isEmpty)
+        std::cout << "Title is required" << std::endl;
+
+    std::cout << "Enter the run length (in minutes): ";
+    std::cin >> runLength;
+    if (runLength < 0)
+    {
+        std::cout << "Run length must be at least 0" << std::endl;
+        runLength = 0;
+    };
+
+    std::cout << "Enter the release year (1900-2100): ";
+    std::cin >> releaseYear;
+    /*if (releaseYear < 1900)
+    {
+        std::cout << "Release year must be at least 1900" << std::endl;
+        releaseYear = 1900;
+    } else if (releaseYear > 2100)
+    {
+        std::cout << "Release year must be between 1900 and 2100" << std::endl;
+        releaseYear = 1900;
+    }*/
+
+    // Logical AND &&   Eb && Eb => bool
+    // Logical OR ||    Eb || Eb => bool
+    // Logical NOT !    !Eb => bool
+    if (releaseYear < 1900 || releaseYear > 2100)
+    {
+        std::cout << "Release year must be between 1900 and 2100" << std::endl;
+        releaseYear = 1900;
+    }
+    {
+        std::cout << "Enter the optional description: ";
+        std::getline(std::cin, description);
+
+        // Validate userRating
+        std::cout << "Enter the optional user rating (1.0-10.0): ";
+        std::cin >> userRating;
+        if (userRating < 1.0 || userRating > 10.0)
+        {
+            std::cout << "Rating must be between 1.0 and 10.0" << std::endl;
+            userRating = 1.0;
+        }
+        /*if (userRating < 1.0)
+        {
+            std::cout << "Rating must be between 1.0 and 10.0" << std::endl;
+            userRating = 1.0;
+        } else if (userRating > 10.0)
+        {
+            std::cout << "Rating must be between 1.0 and 10.0" << std::endl;
+            userRating = 1.0;
+        }*/
+        {
+            std::cout << "Is this a classic (Y/N)? ";
+            std::string input;
+            std::cin >> input;
+
+            // if (Eb) S [ else S ] ;
+            // Else associates with nearest preceding if
+            // Nested if
+            //   if (E1) 
+            //     if (E2) 
+            //       if (E3)
+            //          S (E1, E2 and E3 must be true)
+            // if-else-if
+            //   if (E1)
+            //     S
+            //   else if (E2)
+            //     S  (E1 is false and E2 is true)
+            // 
+
+            /*if (_strcmpi(input.c_str(), "Y") == 0)
+                isClassic = true;
+            if (_strcmpi(input.c_str(), "N") == 0)
+                isClassic = false;
+            else
+                std::cout << "You must enter either Y or N";*/
+            if (_strcmpi(input.c_str(), "Y") == 0)
+                isClassic = true;
+            else
+                if (_strcmpi(input.c_str(), "N") == 0)
+                    isClassic = false;
+                else
+                    std::cout << "You must enter either Y or N";
+        }
+        //TODO: Handle other values
+
+
+        void relationalDemo();
+        {
+            std::cout << "Enter two values: ";
+
+            int left, right;
+            std::cin >> left >> right;
+
+            /* Relational operators :: = > >= < <= == !=
+               Warning 1 - Equality and equals are similar and work in the same situations
+               Warning 2 - Be very, very careful of floating point comparison for equality
+                             Consider using >= or <= instead unless comparing to an integer
+               Warning 3 - Strings compare by character values not by locale
+            std::cout << "areEqual = " << areEqual << std::endl;
+            areEqual = left == right;
+            std::cout << "areEqual = " << areEqual << std::endl;
+
+            areEqual = 10 == left;
+            areEqual = 10 = left;
+            std::cout << "> " << (left > right) << std::endl;
+            std::cout << "< " << (left < right) << std::endl;
+            std::cout << ">= " << (left >= right) << std::endl;
+            std::cout << "<= " << (left <= right) << std::endl;
+            std::cout << "== " << (left == right) << std::endl;
+            std::cout << "!= " << (left != right) << std::endl;
+
+            float someValue = (10 / 3.0) * 3.0;
+            float someOtherValue = (10 * 3.0) / 3.0;
+            areEqual = someValue == someOtherValue;
+            std::cout << areEqual << std::endl;
+
+             Comparison works but is case sensitive
+            std::string name1 = "Bob";
+            std::string name2 = "bob";
+            std::cout << (name1 == name2) << std::endl;
+
+             To compare strings case insensitive use the strcmpi
+              > 0 ::= left > right
+              < 0 ::= left < right
+              == 0 ::= left == right
+            areEqual = _strcmpi(name1.c_str(), name2.c_str()) == 0;
+         
+         NEW OPERATOR: conditional expression Eb (boolean expression ? Et : Ef (two other operators)
+            taking an if statement and coverting it into an expression. if boolean expression is true the value of your second operand is true, if false its your third.
+            conditionally chooses. used for when you need a conditionally expression. 
+            conditional_expression ::= Eb ? Et : Ef
+            ex: std::string classicIndicator = (isClassic ? "Yes" : "No");
+            used in a cout or any place you need an expression. when using cout complier will get confused if you dont use parenthesis. 
+         
+         ***SWITCH STATEMENT: SWITCH(EXPRESSION)
+           {
+           0- MORE CASE STATEMENTS, CASE STATEMENT BEGINS WITH KEYWORD CASE -->EXPRESSION(case label)--> : SINGLE STATEMENT;
+           DESIGNED TO REPLACE IF ELSE IF STATEMENTS 
+           executes the statements that corelates with the value of expression
+           RULES: 
+           CASE LABELS MUST BE COMPLIE TIME CONSTANTS( VALUE IS KNOWN BY COMPLIER AT TIME OF COMPULATION) LIMITED TO SIMPLE EXPRESSIONS( CONST INTIGERS, SIMPLE MATH FUNCTIONS)  
+         (put at the end after all choices) default statement ex: default: std::cout << "ivalid choice" <<endl;
+         BE WEARY OF FALLTHROUGH IN CASE STATEMENTS ( FALL THROUGH TO THE NEXT CASE UNITL DEFAULT)
+         ** BREAK SOLVES THIS: BREAK GETS YOU OUT OF YOUR CASE
+         Ex: switch( letterGrade) 
+           {case 'A' : cout << "passing" <<endl;break;
+           case 'B' : cout << "also passing"<<,endl;break;
+           case 'C' : cout << "barely passing"<<endl;break;
+           }
+           */
+        }
+    }
+}
