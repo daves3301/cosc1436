@@ -15,9 +15,9 @@ int main()
     int loan;
     int interest;
     int payment;
-    cout << "Please enter a loan amount: " << endl;
+    cout << "Please enter a loan amount: " << endl;  //limit it between 1- 1000$
     cin >> loan;
-    cout << "Pleae enter an interest rate(%): " << endl;
+    cout << "Please enter an interest rate(%): " << endl;
     cin >> interest;
     cout << "How much do you want to pay each month?: " << endl;        //no negatives allowed 
     cin >> payment;
