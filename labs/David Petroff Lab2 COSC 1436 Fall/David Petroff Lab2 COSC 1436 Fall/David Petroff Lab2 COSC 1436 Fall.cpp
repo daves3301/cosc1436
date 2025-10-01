@@ -9,17 +9,33 @@ Lab 2
 #include <cmath>
 using namespace std;
 
-
 int main()
 {
-    int loan;
-    int interest;
-    int payment;
-    cout << "Please enter a loan amount: " << endl;  //limit it between 1- 1000$
-    cin >> loan;
-    cout << "Please enter an interest rate(%): " << endl;
-    cin >> interest;
-    cout << "How much do you want to pay each month?: " << endl;        //no negatives allowed 
-    cin >> payment;
+    float loan;
+    float interest;
+    float payment;
 
+    std::cout << "Please enter a loan amount: " << endl; //limit it between 1- 1000$
+    std::cin >> loan;
+    if (loan < 1 || loan > 1000)
+    {
+        std::cout << "ERROR: Loan amount must be between $1 - $1000" << endl;
+        loan = 1;
+    }
 
+    std::cout << "Please enter an interest rate(%): " << endl;
+    std::cin >> interest;
+    if (interest > 1.0 || interest < 100)
+    {
+        std::cout << "ERROR: interest rate must be between 1.0% - 100.0%" << endl;
+        interest = 1.0;
+    }
+    std::cout << "How much do you want to pay each month?: " << endl;        //no negatives allowed 
+    std::cin >> payment;
+    if (payment < 0 || payment > loan)
+        std::cout << "ERROR: payment must be between $0 - loan amount" << endl;
+
+                                                                            //display loan table
+}
+
+return 0;
