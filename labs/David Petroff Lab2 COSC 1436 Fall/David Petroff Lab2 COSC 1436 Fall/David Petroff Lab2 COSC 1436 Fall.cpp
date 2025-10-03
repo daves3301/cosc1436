@@ -7,6 +7,7 @@ Lab 2
 #include <iostream>
 #include <iomanip>
 #include <cmath>
+#include <string>
 using namespace std;
 
 int main()
@@ -26,6 +27,7 @@ int main()
     }
 
     do {
+        
         std::cout << "Please enter an interest rate(%): " << endl;
         std::cin >> interest;
         if (interest > 1.0 || interest < 100)
