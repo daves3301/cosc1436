@@ -6,48 +6,104 @@ Lab 2
 */
 #include <iostream>
 #include <iomanip>
-#include <cmath>
-#include <string>
 using namespace std;
 
 int main()
 {
-    float loan;
-    float interest;
-    float payment;
-    do {
-        std::cout << "Please enter a loan amount: " << endl; //limit it between 1- 1000$
-        std::cin >> loan;
-        if (loan < 1 || loan > 1000)
-        {
-            std::cout << "ERROR: Loan amount must be between $1 - $1000" << endl;
-            loan = 1;
-        }
-        while (loan < 1 || loan > 1000);
-    }
+    double loan;
+    double interest;
+    double payment;
 
-    do {
-        
-        std::cout << "Please enter an interest rate(%): " << endl;
-        std::cin >> interest;
-        if (interest > 1.0 || interest < 100)
-        {
-            std::cout << "ERROR: interest rate must be between 1.0% - 100.0%" << endl;
-            interest = 1.0;
-        }
-        while (interest > 1.0 || interest < 100);
+    while(true)
+    {
+    cout << "Please enter a loan amount: " << endl; //limit it between 1- 1000$
+    cin >> loan;
+    
+    if (loan < 1 || loan > 1000)
+    {
+        cout << "ERROR: Loan amount must be between $1 - $1000" << endl;
+        loan = 1;
+    } else 
+    {
+        break;
     }
+}
+    while (true)
+    {
+    cout << "Please enter an interest rate(%): " << endl;
+    cin >> interest;
 
-    do {
-        std::cout << "How much do you want to pay each month?: " << endl;        //no negatives allowed 
-        std::cin >> payment;
-        if (payment < 0 || payment > loan)
-        {
-            std::cout << "ERROR: payment must be between $0 - loan amount" << endl;
-            payment = 1;
-        }
-        while (payment < 0 || payment > loan);
+    if (interest < 1.0 || interest > 100)
+    {
+        std::cout << "ERROR: interest rate must be between 1.0% - 100.0%" << endl;
+        interest = 0.0;
+    } 
+    else 
+    {
+        break;
     }
-                                                                            //display loan table
+    interest /= 100.0;
+   
+    cout << "How much do you want to pay each month?: " << endl;        //no negatives allowed 
+    cin >> payment;
+    if (payment < 0 || payment > loan)
+    {
+        cout << "ERROR: payment must be between $0 - loan amount" << endl;
+        payment = 1.0;
+    } else {
+        break;
+    }
+}
+cout << fixed << setprecision(2);
+cout << "\nMonth   Balance        Payment        Interest       New Balance\n";
+cout << "----------------------------------------------------------------------\n";
+
+double balance = loan;
+double totalInterest = 0.0;
+double totalPayments = 0.0;
+
+for (int month = 1; month <= 12; ++month)
+{
+    double monthlyPayment;
+    double interest = 0.0;
+    double newBalance = balance;
+
+    if (month == 1)
+    {
+        interest = 0.0;
+        newBalance = balance;
+        monthlyPayment = 0.0;
+    } else
+    {
+        if (balance > 0) {
+            if (monthlyPayment > balance)
+                monthlyPayment = balance;
+
+
+            newBalance = balance - monthlyPayment;
+            interest = newBalance * interest;
+
+            newBalance += interest;
+
+            totalPayments += monthlyPayment;
+            totalInterest += interest;
+        } else {
+            monthlyPayment = 0.0;
+            interest = 0.0;
+            newBalance = 0.0;
+        }
+    }
+    cout << setw(2) << month << "      $ " << setw(8) << balance
+  <<  "      $ " << setw(8) << monthlyPayment
+  <<  "      $ " << setw(8) << interest
+  <<  "      $ " << setw(8) << newBalance << endl;
+
+    balance = newBalance;
+    if (balance <= 0) balance = 0;
 }
 
+cout << "---------------------------------------------------------\n";
+cout << "Total                   $" << setw(8) << totalPayments
+<< "   $ " << setw(8) << totalInterest << endl;
+return 0;
+}
