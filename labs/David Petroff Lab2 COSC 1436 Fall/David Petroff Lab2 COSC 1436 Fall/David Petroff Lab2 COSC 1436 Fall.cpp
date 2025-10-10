@@ -33,15 +33,11 @@ int main()
     cout << "Please enter an interest rate(%): " << endl;
     cin >> interest;
 
-    if (interest < 1.0 || interest > 100)
+    if (interest < 1.0 || interest > 100.0)
     {
         std::cout << "ERROR: interest rate must be between 1.0% - 100.0%" << endl;
         interest = 0.0;
     } 
-    else 
-    {
-        break;
-    }
     interest /= 100.0;
    
     cout << "How much do you want to pay each month?: " << endl;        //no negatives allowed 
@@ -50,60 +46,61 @@ int main()
     {
         cout << "ERROR: payment must be between $0 - loan amount" << endl;
         payment = 1.0;
-    } else {
+    }
+    else {
         break;
     }
 }
-cout << fixed << setprecision(2);
-cout << "\nMonth   Balance        Payment        Interest       New Balance\n";
-cout << "----------------------------------------------------------------------\n";
+    cout << fixed << setprecision(2);
+    cout << "\nMonth   Balance        Payment        Interest       New Balance\n";         //menu
+    cout << "----------------------------------------------------------------------\n";
 
-double balance = loan;
-double totalInterest = 0.0;
-double totalPayments = 0.0;
+    double balance = loan;
+    double totalInterest = 0.0;
+    double totalPayments = 0.0;
 
-for (int month = 1; month <= 12; ++month)
-{
-    double monthlyPayment;
-    double interest = 0.0;
-    double newBalance = balance;
-
-    if (month == 1)
+    for (int month = 1; month <= 12; ++month)
     {
-        interest = 0.0;
-        newBalance = balance;
-        monthlyPayment = 0.0;
-    } else
-    {
-        if (balance > 0) {
-            if (monthlyPayment > balance)
-                monthlyPayment = balance;
+        double monthlyPayment;
+        double interest = 0.0;
+        double newBalance = balance;
 
-
-            newBalance = balance - monthlyPayment;
-            interest = newBalance * interest;
-
-            newBalance += interest;
-
-            totalPayments += monthlyPayment;
-            totalInterest += interest;
-        } else {
-            monthlyPayment = 0.0;
+        if (month == 1)
+        {
             interest = 0.0;
-            newBalance = 0.0;
+            newBalance = balance;
+            monthlyPayment = 0.0;
         }
+
+            if (balance > 0) {
+                if (monthlyPayment > balance) {
+
+                    monthlyPayment = balance;
+
+
+                    newBalance = balance - monthlyPayment;
+                    interest = newBalance * interest;
+
+                    newBalance += interest;
+
+                    totalPayments += monthlyPayment;                        //calculating totals
+                    totalInterest += interest;
+                }
+            }
+        }
+        cout << setw(2) << month << "      $ " << setw(8) << balance            //formatting 
+            << "      $ " << setw(8) << monthlyPayment
+            << "      $ " << setw(8) << interest
+            << "      $ " << setw(8) << newBalance << endl;
+
+        balance = newBalance;
     }
-    cout << setw(2) << month << "      $ " << setw(8) << balance
-  <<  "      $ " << setw(8) << monthlyPayment
-  <<  "      $ " << setw(8) << interest
-  <<  "      $ " << setw(8) << newBalance << endl;
-
-    balance = newBalance;
-    if (balance <= 0) balance = 0;
-}
-
-cout << "---------------------------------------------------------\n";
-cout << "Total                   $" << setw(8) << totalPayments
-<< "   $ " << setw(8) << totalInterest << endl;
-return 0;
+    if (balance <= 0) 
+    {
+        balance = 0;
+    }
+    cout << "---------------------------------------------------------\n";
+    cout << "Total                   $" << setw(8) << totalPayments
+    << "   $ " << setw(8) << totalInterest << endl;
+    return 0;
 }
