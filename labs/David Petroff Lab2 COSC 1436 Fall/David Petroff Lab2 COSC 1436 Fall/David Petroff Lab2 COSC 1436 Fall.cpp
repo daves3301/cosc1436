@@ -87,7 +87,6 @@ int main()
                     totalInterest += interest;
                 }
             }
-        }
         cout << setw(2) << month << "      $ " << setw(8) << balance            //formatting 
             << "      $ " << setw(8) << monthlyPayment
             << "      $ " << setw(8) << interest
