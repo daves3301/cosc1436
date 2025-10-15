@@ -30,12 +30,12 @@ int main()
         
         std::cout << "Please enter an interest rate(%): " << endl;
         std::cin >> interest;
-        if (interest > 1.0 || interest < 100)
+        if (interest < 1.0 || interest > 100)
         {
             std::cout << "ERROR: interest rate must be between 1.0% - 100.0%" << endl;
             interest = 1.0;
         }
-        while (interest > 1.0 || interest < 100);
+        while (interest < 1.0 || interest > 100);
     }
 
     do {
