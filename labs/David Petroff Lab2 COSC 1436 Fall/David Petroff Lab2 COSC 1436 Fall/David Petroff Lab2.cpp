@@ -15,12 +15,12 @@ int main()
 
     while(true)                                     //loan conditions 
     {
-    cout << "Please enter a loan amount: " << endl; //limit it between 1- 1000$
-    cin >> loan;
+    std::cout << "Please enter a loan amount: " << std::endl; //limit it between 1- 1000$
+    std::cin >> loan;
     
     if (loan < 1 || loan > 1000)
     {
-        cout << "ERROR: Loan amount must be between $1 - $1000" << endl;
+        std::cout << "ERROR: Loan amount must be between $1 - $1000" << std::endl;
         loan = 1;
     } else 
     {
@@ -29,12 +29,12 @@ int main()
 }
     while (true)
     {
-        cout << "Please enter an interest rate(%): " << endl;           //interest conditions
-        cin >> interest;
+        std::cout << "Please enter an interest rate(%): " << std::endl;           //interest conditions
+        std::cin >> interest;
 
         if (interest < 1.0 || interest > 100.0)
         {
-            std::cout << "ERROR: interest rate must be between 1.0% - 100.0%" << endl;
+            std::cout << "ERROR: interest rate must be between 1.0% - 100.0%" << std::endl;
             interest = 0.0;
         } else
         {
@@ -44,20 +44,20 @@ int main()
     }
     while (true)
     {
-        cout << "How much do you want to pay each month?: " << endl;        //no negatives allowed 
-        cin >> payment;
+        std::cout << "How much do you want to pay each month?: " << std::endl;        //no negatives allowed 
+        std::cin >> payment;
 
         if (payment < 0 || payment > loan)
         {
-            cout << "ERROR: payment must be between $0 - loan amount" << endl;
+            std::cout << "ERROR: payment must be between $0 - loan amount" << std::endl;
             payment = 1.0;
         } else {
             break;
         }
     }
-    cout << fixed << setprecision(2);                                                   //table header
-    cout << "\nMonth   Balance        Payment        Interest       New Balance\n";
-    cout << "----------------------------------------------------------------------\n";
+    std::cout << std::fixed << std::setprecision(2);                                                   //table header
+    std::cout << "\nMonth   Balance        Payment        Interest       New Balance\n";
+    std::cout << "----------------------------------------------------------------------\n";
 
     double balance = loan;                                                              //balances & totals
     double totalInterest = 0.0;
@@ -97,16 +97,16 @@ int main()
                 monthlyInterest = 0.0;
                 newBalance = 0.0;
         }
-        cout << setw(2) << month << "      $ " << setw(8) << balance                //formatting 
-            << "      $ " << setw(8) << monthlyPayment
-            << "      $ " << setw(8) << monthlyInterest
-            << "      $ " << setw(8) << newBalance << endl;
+        std::cout << std::setw(2) << month << "      $ " << std::setw(8) << balance                //formatting 
+            << "      $ " << std::setw(8) << monthlyPayment
+            << "      $ " << std::setw(8) << monthlyInterest
+            << "      $ " << std::setw(8) << newBalance << std::endl;
 
         balance = newBalance;                                                       //updating balance
     }
 
-    cout << "---------------------------------------------------------\n";
-    cout << "Total                   $" << setw(8) << totalPayments
-         << "    $ " << setw(8) << totalInterest << endl;
+    std::cout << "---------------------------------------------------------\n";
+    std::cout << "Total                   $" << std::setw(8) << totalPayments
+         << "    $ " << std::setw(8) << totalInterest << std::endl;
     return 0;
 }
