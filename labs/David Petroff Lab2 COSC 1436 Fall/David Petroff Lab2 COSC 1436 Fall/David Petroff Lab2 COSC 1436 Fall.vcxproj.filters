@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="David Petroff Lab2 COSC 1436 Fall.cpp">
+    <ClCompile Include="David Petroff Lab2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
