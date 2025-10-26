@@ -113,7 +113,7 @@ int main() {
     int time = getFallingTime();                //collect falling time
     char unitChoice = getUnitChoice();          //collect unit choice
 
-    displayResultsTable(time, unitChoice);      //displaying table 
+    displayResultsTable(time, unitChoice);      //displaying table  
 
     cout << "\nProgram completed. Later Gator!.\n";
     return 0;
