@@ -263,7 +263,11 @@ int main()
     //TODO: Leaving this for now to avoid breaking code
     Movie movie;
     Movie movies[MaximumMovies];
-
+    
+    // array operator []   (how to access an array youve made)
+    //  A[index]
+    movie firstElement = movies[0];
+    
     //Display main menu
     bool done = false;
     do
