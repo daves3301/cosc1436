@@ -197,52 +197,74 @@ void DeleteMovie(Movie& movie)
     movie.title = "";
 }
 
-void EditMovie(Movie & movie)
+void EditMovie(Movie& movie)
 {
     DisplayWarning("Not implemented yet");
 }
 
-//test function overloading
+//Test function overloading
 void Display(int value)
 {
     std::cout << "int" << std::endl;
 }
+
 void Display(double value)
 {
     std::cout << "double" << std::endl;
 }
+
 void Display(float value)
 {
     std::cout << "float" << std::endl;
 }
-void Display(int value1, double value2)
+
+void Display(short value1, double value2)
 {
     std::cout << "int, double" << std::endl;
 }
-void TestFunctionOverloading()
-{
-    Display(10);  //display (int)
-    Display(4.56); //display (double)
-    Display((short)34); // display (int) -> shortest type coercion
-    Display(10, 4.56F); //display (int, double)
 
-}
-int Factorial(int value)
+void Display(short value, float)
 {
-    return value * Factorial(value - 1);
+    std::cout << "short, float" << std::endl;
 }
+
+void Display(int, short)
+{
+    std::cout << "int, short" << std::endl;
+}
+
+void Display(short, int)
+{
+    std::cout << "int, short" << std::endl;
+}
+
+//void TestFunctionOverloading()
+//{ 
+//    Display(10);   //Display(int)
+//    Display(4.56); // Display(double)
+//    Display((short)34);  // Display(int) -> shortest type coercion
+//    Display(10, 4.56F);  // Display(int, double)
+//
+//    long lValue = 10000L;
+//    Display(lValue, 4.56);
+//
+//    //Display("Hello", 4.56); //Compiler error, no matches
+//    //Display(10, "Hello");   //Compiler error, no matches
+//
+//    Display('c', 4.56F);   // short, float
+//    Display((short)5, (short)10);
+//}
 
 int main()
 {
-    std::cout << Factorial(5) << std::endl;
+    //Cannot calculate the size of an array at runtime so use a const int variable
+    const int MaximumMovies = 100;
 
-    //leaving this for now
+    //TODO: Leaving this for now to avoid breaking code
     Movie movie;
-    
-    Movie movies[100];
+    Movie movies[MaximumMovies];
 
-
-    //display menu
+    //Display main menu
     bool done = false;
     do
     {
@@ -280,5 +302,5 @@ int main()
 
     //std::cin.ignore();
     // Function call ::= func () 
-    //ViewMovie();
+    //ViewMovie();    
 }
