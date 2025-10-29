@@ -197,10 +197,11 @@ void DeleteMovie(Movie& movie)
     movie.title = "";
 }
 
-void EditMovie(Movie& movie)
+void EditMovie(Movie & movie)
 {
     DisplayWarning("Not implemented yet");
 }
+
 //test function overloading
 void Display(int value)
 {
@@ -226,8 +227,15 @@ void TestFunctionOverloading()
     Display(10, 4.56F); //display (int, double)
 
 }
+int Factorial(int value)
+{
+    return value * Factorial(value - 1);
+}
+
 int main()
 {
+    std::cout << Factorial(5) << std::endl;
+
     //leaving this for now
     Movie movie;
     
