@@ -153,6 +153,16 @@ void ViewMovie(Movie movie)
     std::cout << std::endl;
 }
 
+void ViewMovies(Movie movies[] int size)        //syntax for passing an array to a function, must use size   
+{
+    //enumerate movies until we run out 
+    for (int index = 0; index < size; ++index)
+    {
+        if (movies[index].title == "")
+            return;
+    }
+        ViewMovie(movies[index]);
+}
 /// <summary>Prompt user and add movie details.</summary>
 Movie AddMovie()
 {
@@ -187,8 +197,9 @@ Movie AddMovie()
     return movie;
 }
 
-void DeleteMovie(Movie& movie)
+void DeleteMovie()
 {
+    Movie movie;
     if (!Confirm("Are you sure you want to delete " + movie.title + "?"))
         return;
 
@@ -197,11 +208,28 @@ void DeleteMovie(Movie& movie)
     movie.title = "";
 }
 
-void EditMovie(Movie& movie)
+void EditMovie()
 {
     DisplayWarning("Not implemented yet");
 }
 
+int AddToMovieArray(movie movies[], int size, Movie movie)
+{
+    //enumerate the array looking for first blank movie
+    //set array element 
+    for (int index = 0;index < sze; ++index)
+    {
+        if (movies[index].title == "")
+        {
+            //set array element
+            movies[index] = movie;
+            return index;
+        }
+    }
+
+    DisplayError("No space available for new movie");
+    return -1;
+}
 //Test function overloading
 void Display(int value)
 {
@@ -263,7 +291,7 @@ int Factorial(int value)
     return value * Factorial(value - 1);
 }
 
-void ArrayDemo()
+/*void ArrayDemo()
 {
     const int MaxNumbers = 100;
 
@@ -283,23 +311,44 @@ void ArrayDemo()
     // Zero init - each element is set to 0// { 0 }
     // Full init - each element is assigned a value
     // Partial init - each element is assigned a value and remaining elements are 0 initialized    
-    int daysInMonth[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+    //int daysInMonth[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
     // Implicit array sizing
-    int daysInMonth[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+    //int daysInMonth[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
     //Set each element to its element number (element 1 = 1, element 2 = 2, etc)
     //Approach 1 for small arrays only
     numbers[0] = 1;
     numbers[1] = 2;
     numbers[2] = 3;
+   
+    int rangeIndex = 0;
+    for (int& number: numbers)      //like a pass by reference, could do without the &, the & is referencing the original array variable in memory 
+        number = ++rangeIndex;
 
-    //Approach 2 for any array
-    for (int index = 0; index < MaxNumbers; ++index)
-        numbers[index] = index + 1;
+    //for-range statement = for ( T var: array)
+    for (int number: numbers) 
+        std::cout << number << std::endl;
 
-    for (int index = 0; index < MaxNumbers; ++index)
-        std::cout << numbers[index] << std::endl;
+    //prefix/ ostfix and arrays
+    // ++x = x = x +1; return x
+    // x++ = temp = x; x= x+1; returns temp
+    int outIndex = 0;
+    std::cout << ++numbers[outIndex] << std::endl;  //modifies element ++numbers[0], numbers[0] = 2, prints 2
+    std::cout << numbers[++outIndex] << std::endl;  //modifies index, numbers[++0], outIndex = 1, numbers[1] = 2, prints 2
+    std::cout << numbers[outIndex++] << std::endl;  //modifies index,  numbers[1++], outIndex = 2, prints out 2
+    std::cout << numbers[outIndex]++ << std::endl;  //modifies element, numbers[0]++, numbers[0] = 3, prints 2
+
+
+    //Arrays - access elements 
+    //CANT: 
+    //use assignment, must manually copy using a for loop 
+    //int numbers2[MaxNumbers] = numbers; 
+    //int numbers3[MaxNumbers = {0};
+    //bool areArraysEqual = numbers == numbers3; // comparison doesnt work , only way to do it is to write a for loop.
+    
+    //cannot print out an array - std::cout >> numbers; must use for loop 
+    //input doesnt work at all
 }
 
 int main()
@@ -311,7 +360,7 @@ int main()
     const int MaximumMovies = 100;
 
     //TODO: Leaving this for now to avoid breaking code
-    Movie movie;
+    //Movie movie;
     Movie movies[MaximumMovies];
 
     // Array operator []
@@ -336,16 +385,16 @@ int main()
         switch (choice)
         {
             case 'A':
-            case 'a': movie = AddMovie(); break;
+            case 'a': AddToMovieArray(movies, MaximumMovies, AddMovie()); break;
 
             case 'V':
-            case 'v': ViewMovie(movie); break;
+            case 'v': ViewMovies(movies, MaximumMovies); break;
 
             case 'D':
-            case 'd': DeleteMovie(movie); break;
+            case 'd': DeleteMovie(); break;
 
             case 'E':
-            case 'e': EditMovie(movie); break;
+            case 'e': EditMovie(); break;
 
             case 'Q':
             case 'q': done = true;
