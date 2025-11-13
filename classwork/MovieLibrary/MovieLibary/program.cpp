@@ -1,5 +1,5 @@
 /*
- * Chapter 6
+ * Final Version
  * COSC 1436
  */
 #include <iostream>
@@ -8,7 +8,7 @@
 
 //Movie details
 struct Movie
-{
+{    
     std::string title;          //Required
     std::string description;    //Optional
     int runLength;              //Required, 0
@@ -16,7 +16,6 @@ struct Movie
     bool isClassic;             //Required, false
     std::string genres;         //Optional (comma separated list of genres)
 };
-
 
 /// <summary>Defines possible foreground colors.</summary>
 enum class ForegroundColor {
@@ -32,7 +31,6 @@ enum class ForegroundColor {
 };
 
 //Function prototypes
-//Forward declarations/referencing
 void DisplayError(std::string);
 
 void ResetTextColor()
@@ -40,7 +38,7 @@ void ResetTextColor()
     std::cout << "\033[0m";
 }
 
-void SetTextColor(ForegroundColor color)
+void SetTextColor ( ForegroundColor color )
 {
     std::cout << "\033[" << (int)color << "m";
 }
@@ -48,7 +46,7 @@ void SetTextColor(ForegroundColor color)
 /// <summary>Display a confirmation message.</summary>
 /// <param name="message">Message to show.</param>
 /// <returns>Returns true or false depending on whether confirmed or not.</returns>
-bool Confirm(std::string message)
+bool Confirm ( std::string message )
 {
     std::cout << message << " (Y/N) ";
     std::string input;
@@ -70,8 +68,9 @@ bool Confirm(std::string message)
 
 /// <summary>Displays an error message.</summary>
 /// <param name="message">Message to display.</param>
-void DisplayError(std::string message)
+void DisplayError ( std::string message )
 {
+    //std::cout << "\033[91m" 
     SetTextColor(ForegroundColor::BrightRed);
     std::cout << "ERROR: " << message << std::endl;
     ResetTextColor();
@@ -86,32 +85,43 @@ void DisplayWarning(std::string message)
     ResetTextColor();
 }
 
-int ReadInt(int minimumValue, int maximumValue)
-{
+/// <summary>Reads an integer from the terminal.</summary>
+/// <param name="minimumValue">Minimum value</param>
+/// <param name="maximumValue">Maximum value</param>
+/// <returns>Integer value provided by user</returns>
+int ReadInt ( int minimumValue, int maximumValue )
+{    
     do
     {
         int value;
         std::cin >> value;
-
+        
         if (value >= minimumValue && value <= maximumValue)
             return value;
 
         DisplayError("Value is outside range");
-    } while (true);
+    } while (true);   
 }
 
+/// <summary>Reads an integer from the terminal.</summary>
+/// <param name="minimumValue">Minimum value</param>
+/// <returns>Integer value provided by user</returns>
 int ReadInt(int minimumValue)
 {
     return ReadInt(minimumValue, INT_MAX);
 }
 
-std::string ReadString(std::string message, bool isRequired)
-{
+/// <summary>Reads a string from the terminal.</summary>
+/// <param name="message">Message to show</param>
+/// <param name="isRequired">true if the input is required</param>
+/// <returns>String value provided by user.</returns>
+std::string ReadString ( std::string message, bool isRequired )
+{    
     std::cout << message;
 
     std::string input;
     std::getline(std::cin, input);
-
+    
     while (isRequired && input == "")
     {
         DisplayError("Value is required");
@@ -122,18 +132,46 @@ std::string ReadString(std::string message, bool isRequired)
     return input;
 }
 
+/// <summary>Adds a movie to an array.</summary>
+/// <param name="movies">Array</param>
+/// <param name="size">Size of the array</param>
+/// <param name="movie">Movie to add</param>
+/// <returns>Index of new movie if inserted or -1 otherwise.</returns>
+int AddToMovieArray(Movie movies[], int size, Movie movie)
+{
+    //Enumerate the array looking for the first blank movie
+    for (int index = 0; index < size; ++index)
+    {
+        if (movies[index].title == "")
+        {
+            //Set the array element
+            movies[index] = movie;
+            return index;
+        }
+    }
+
+    DisplayError("No space available for new movie");
+    return -1;
+}
+
 /// <summary>View details of a movie.</summary>
 /// <remarks>
 /// More details including paragraphs of data if you want.
 /// </remarks>
-void ViewMovie(Movie movie)
-{
+void ViewMovie ( Movie movie )
+{    
     if (movie.title == "")
     {
         DisplayWarning("No movies exist");
         return;
     }
 
+    // View movie
+    //    Title (Year)
+    //    Run Length # min
+    //    User Rating = ##
+    //    Is Classic? 
+    //    [Description]
     std::cout << std::fixed << std::setprecision(1) << std::endl;
     std::cout << movie.title << " (" << movie.releaseYear << ")" << std::endl;
     std::cout << "Run Length " << movie.runLength << " mins" << std::endl;
@@ -144,8 +182,10 @@ void ViewMovie(Movie movie)
     std::cout << std::endl;
 }
 
-void ViewMovies(Movie movies[], int size)
+void ViewMovies( Movie movies[], int size )
 {
+    //Enumerate movies until we run out
+    //for (Movie movie: movies)
     for (int index = 0; index < size; ++index)
     {
         if (movies[index].title == "")
@@ -156,24 +196,26 @@ void ViewMovies(Movie movies[], int size)
 }
 
 /// <summary>Prompt user and add movie details.</summary>
-Movie AddMovie()
+Movie AddMovie ()
 {
-    Movie movie;
+    Movie movie;// = {0};
 
+    //Get movie details
     movie.title = ReadString("Enter movie title: ", true);
-
+    
     std::cout << "Enter the run length (in minutes): ";
     movie.runLength = ReadInt(0);
 
     std::cout << "Enter the release year (1900-2100): ";
     std::cin >> movie.releaseYear;
-    movie.releaseYear = ReadInt(1900, 2100);
+    movie.releaseYear = ReadInt(1900, 2100);    
 
     movie.description = ReadString("Enter the optional description: ", false);
-
+    
+    // Genres, up to 5
     for (int index = 0; index < 5; ++index)
     {
-        std::string genre = ReadString("Enter the genre (or blank to continue): ", false);
+        std::string genre = ReadString("Enter the genre (or blank to continue): ", false);        
         if (genre == "")
             break;
         else if (genre == " ")
@@ -192,6 +234,8 @@ void DeleteMovie()
     Movie movie;
     if (!Confirm("Are you sure you want to delete " + movie.title + "?"))
         return;
+
+    //TODO: Delete movie
     movie.title = "";
 }
 
@@ -201,199 +245,89 @@ void EditMovie()
 }
 
 void PointerDemo()
-{
-    
-    //pointer to an int(reads right to left), pointers are 8 bytes. doesnt matter the other type
+{    
     int localInt = 1234;
 
-    int* pInt;
+    //Pointer - memory address    
+    //Data points
+    //  Pointer value is a memory address (8 bytes)
+    //  Value pointed to by pointer (dereferenced value) is int (4 bytes)
+    // pointer_decl ::= T* id
+    int* pInt;              //Pointer to an int
     pInt = &localInt;
 
-    localInt = 9876;
-    //pointer de-reference operator(accessing value stored at memory address pointer points too)
+    localInt =9876;
+
+    // Dereferencing a pointer returns the original type T
+    //   dereference_op := *ptr
     *pInt = 5678;
-}
 
-int AddToMovieArray(Movie movies[], int size, Movie movie)
-{
-    for (int index = 0; index < size; ++index)
-    {
-        if (movies[index].title == "")
-        {
-            movies[index] = movie;
-            return index;
-        }
+    //An uninitialized pointer points to garbage
+    // Initialize pointer to memory 0 which is invalid
+    //  NULL - C version, not preferred as it is still an int
+    //  nullptr - preferred in C++
+    //float* pFloat = NULL;    
+    float* pFloat = nullptr;
+    //pFloat = 0;   Don't do this
+    //pFloat = 1234;
+    
+    //Always ensure pointer is valid (not null) before dereferencing
+    //if (pFloat != nullptr) {
+    if (pFloat) {
+        //This is going to crash hard if pointer is NULL
+        *pFloat = 123.45;
     }
 
-    DisplayError("No space available for new movie");
-    return -1;
-}
+    //Initializing a pointer
+    // nullptr
+    float localFloat = 123.45;
 
-#pragma region Function Overloading
+    //Initialize a pointer to a local variable or parameter
+    pFloat = &localFloat;  //Address of localFloat, must be a variable
+    *pFloat = 456.78;   //localFloat = 456.78
 
+    //Initialize a pointer to an array element
+    float someFloats[10] = {0};
+    pFloat = &someFloats[1];   //Ptr references second element
 
-void Display(int value)
-{
-    std::cout << "int" << std::endl;
-}
+    //Compiler error, types must exactly match
+    //pFloat = pInt;   // float* = int*
 
-void Display(double value)
-{
-    std::cout << "double" << std::endl;
-}
+    //Dynamic memory
+    // new_op ::= new T  returns T*
+    pFloat = new float;
+    *pFloat = 89.76;    
 
-void Display(float value)
-{
-    std::cout << "float" << std::endl;
-}
-
-void Display(short value1, double value2)
-{
-    std::cout << "int, double" << std::endl;
-}
-
-void Display(short value, float)
-{
-    std::cout << "short, float" << std::endl;
-}
-
-void Display(int, short)
-{
-    std::cout << "int, short" << std::endl;
-}
-
-void Display(short, int)
-{
-    std::cout << "int, short" << std::endl;
-}
-
-#pragma endregion
-
-#pragma region Factorial
-
-int Factorial(int value)
-{
-    if (value <= 1)
-        return 1;
-
-    return value * Factorial(value - 1);
-}
-#pragma endregion
-
-#pragma region Array Demo
-
-void ArrayDemo()
-{
-    const int MaxNumbers = 100;
-
-    //Init array using { 0 }
-    int numbers[MaxNumbers] = {0};
-    //int numbers[100];        
-
-    //# of days in each month
-    //int daysInMonth[12] = { 0 };
-    //Approach 1 - correct but not readable
-    /*daysInMonth[0] = daysInMonth[2] = daysInMonth[4] = daysInMonth[6] = daysInMonth[7]
-                   = daysInMonth[9] = daysInMonth[11] = 31;
-    daysInMonth[1] = 28;
-    daysInMonth[3] = daysInMonth[5] = daysInMonth[8] = daysInMonth[10] = 30;*/
-
-    //Approach 2 - init expression
-    // Zero init - each element is set to 0// { 0 }
-    // Full init - each element is assigned a value
-    // Partial init - each element is assigned a value and remaining elements are 0 initialized    
-    //int daysInMonth[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
-
-    // Implicit array sizing
-    int daysInMonth[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-    numbers[0] = 1;
-    numbers[1] = 2;
-    numbers[2] = 3;
-
-    int rangeIndex = 0;
-    for (int& number : numbers)
-        number = ++rangeIndex;
-
-    for (int number: numbers)
-        std::cout << number << std::endl;
-
-    int outIndex = 0;
-    std::cout << ++numbers[outIndex] << std::endl;//Modifies element, ++numbers[0], numbers[0] = 2, prints 2
-    std::cout << numbers[outIndex]++ << std::endl;//Modifies element, numbers[0]++, numbers[0] = 3, prints 2
-    std::cout << numbers[++outIndex] << std::endl;//Modifies index, numbers[++0], outIndex = 1, 
-                                                  //  numbers[1], prints 2
-    std::cout << numbers[outIndex++] << std::endl;//Modifies index, numbers[1++], outIndex = 2,
-                                                  //  numbers[1], prints 2
-
-    int numbers3[MaxNumbers] = {0};
-    bool areArraysEqual = numbers == numbers3; //Comparison doesn't work, (in)equality compiles but doesn't work
-                                               // Have to use a for loop to compare elements
-    std::cout << numbers;     //Output doesn't work, have to use a for loop
-    //std::cin >> numbers;      //Input will not compile
-}
-#pragma endregion
-
-void DisplayRow(int values[], int size)
-{
-    for (int row = 0; row < size; ++row)
+    for (int index = 0; index < 10000; ++index)
     {
-        std::cout << values[row] << " ";
+        pFloat = new float;
+        *pFloat = index;
+
+        //Deleting a pointer twice will crash or corrupt memory
+        delete pFloat;
+        pFloat = nullptr;
+
+        //Ensure you call delete for each pointer you allocate using new
+        delete pFloat;
+        pFloat = nullptr;
+        //*pFloat = index; //Using a deallocated pointer may crash or corrupt
     }
-}
 
-void DisplayTable(int table[][31], int size)
-{
-    for (int row = 0; row < size; ++row)
-    {
-        DisplayRow(table[row], 31);
-        std::cout << std::endl;
-    }
-}
+    //Pointer assignment must exactly match the types used (no coercion)
+    // pFloat = float*
+    // someFloats[1] = float
+    // &(Et) = T*
+    // &(someFloats[1]) = &(float) = float*
 
-void MultidimensionalArrayDemo()
-{
-    //Months are the rows, days are columns
-    // Init syntax is 1 row at a time
-    //int months[12][31] = { 1, 2, 3 , 4, 5 };
-    int months[12][31] = {
-                            { 1, 2, 3, 4, 5 },   //Row 1
-                            { 2, 4, 6, 8, 10 },  //Row 2
-    };
-
-//Arrays stored in either (depending on language
-//  row major order: each row's data is stored consecutively in memory (C++)
-//  column major order: each column's data is stored consecutively in memory
-//Ensure for loops match ordering
-//  row major: outer loop is rows, inner loop is columns
-//  column major: outer loop is cols, inner loop is rows
-// Failure to follow ordering results in excessive performance hits including
-//   extra memory loading, bad caching and paging out of data
-    for (int row = 0; row < 12; ++row)
-        for (int col = 0; col < 31; ++col)
-        {
-            months[row][col] = (row + 1) * (col + 1);
-        }
-
-    DisplayTable(months, 12);
 }
 
 int main()
-{
+{       
     PointerDemo();
-
-    MultidimensionalArrayDemo();
-
 
     //Cannot calculate the size of an array at runtime so use a const int variable
     const int MaximumMovies = 100;
-
-    //TODO: Leaving this for now to avoid breaking code
-    //Movie movie;
     Movie movies[MaximumMovies];
-
-    // Array operator []
-    //    A[index] = behaves like a variable
-    Movie firstElement = movies[0];
 
     //Display main menu
     bool done = false;
@@ -408,15 +342,15 @@ int main()
         std::cout << "Q)uit" << std::endl;
 
         char choice;
-        std::cin >> choice;
+        std::cin >> choice;        
 
         switch (choice)
         {
-            case 'A':
+            case 'A': 
             case 'a': AddToMovieArray(movies, MaximumMovies, AddMovie()); break;
 
             case 'V':
-            case 'v': ViewMovies(movies, MaximumMovies); break;
+            case 'v': ViewMovies(movies, MaximumMovies); break;            
 
             case 'D':
             case 'd': DeleteMovie(); break;
@@ -430,5 +364,4 @@ int main()
             default: DisplayError("Invalid choice"); break;
         };
     } while (!done);
-  
 }
