@@ -25,7 +25,8 @@ int getFallingTime() {
 
         if (cin.fail() || time < 1 || time > 60) {
             cout << "Oops! Error: must be a value between 1 - 60.\n";
-            cin.clear();                    //clearing error flags & ignoring invalid input
+            cin.clear();                    //clearing error flags & ignoring invalid input5555555
+
             cin.ignore(1000, '\n');
         } else {
             valid = true;
