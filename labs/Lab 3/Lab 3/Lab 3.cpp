@@ -10,7 +10,7 @@ COSC 1436 Fall 2025
 #include <cmath>
 using namespace std;
 
-//declaring constants
+                                      //declaring constants
 const double GRAVITY = 9.8;
 const double METER_TO_FEET = 3.28084;
 
@@ -25,7 +25,7 @@ int getFallingTime() {
 
         if (cin.fail() || time < 1 || time > 60) {
             cout << "Oops! Error: must be a value between 1 - 60.\n";
-            cin.clear();                    //clearing error flags & ignoring invalid input
+            cin.clear();            //clearing error flags & ignoring invalid input
             cin.ignore(1000, '\n');
         } else {
             valid = true;
@@ -107,7 +107,7 @@ void displayResultsTable(int totalTime, char unitChoice) {
     }
 }
 
-/// <summary>Collect falling time & unit choice, Dipslay results table, Exit. </summary>
+/// <summary>Collect falling time & unit choice, Dipslay results table, Exit the program. </summary>
 int main() {
 
     int time = getFallingTime();                //collect falling time
