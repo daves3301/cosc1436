@@ -15,7 +15,6 @@
 
 using namespace std;
 
-
 /**************************************************************
 * Struct: Stop
 * Purpose: Represents a trip stop with X and Y coordinates.
@@ -26,11 +25,9 @@ struct Stop
     int y;
 };
 
-
-// Display program information
 void displayProgramInfo();
 
-// Input helpers
+
 char getCharInput(string prompt);
 int getIntInRange(string prompt, int minVal, int maxVal);
 bool getYesNo(string prompt);
@@ -53,9 +50,11 @@ void clearTrip(Stop* trip[], int tripSize);
 // Travel math
 double distanceBetween(int x1, int y1, int x2, int y2);
 
-// Input at program start
+// Program start speed
 int getSpeed();
 
+
+// PROGRAM INFO DISPLAY
 void displayProgramInfo()
 {
     cout << "===================== TRIP PLANNER =====================\n";
@@ -65,11 +64,12 @@ void displayProgramInfo()
     cout << "=========================================================\n\n";
 }
 
+
 /// <summary>
-/// prompts the user for input single character
+/// prompts user for single character input and returns lowercase
 /// </summary>
 /// <param name="prompt"></param>
-/// <returns>lowercase of user input</returns>
+/// <returns>users integer lowercase</returns>
 char getCharInput(string prompt)
 {
     string input;
@@ -86,7 +86,7 @@ char getCharInput(string prompt)
 }
 
 /// <summary>
-/// prompts user for integer within range.
+/// promts user for integer within range, then validates.
 /// </summary>
 /// <param name="prompt"></param>
 /// <param name="minVal"></param>
@@ -113,31 +113,29 @@ int getIntInRange(string prompt, int minVal, int maxVal)
             << minVal << " and " << maxVal << ".\n";
     }
 }
+
 /// <summary>
-/// prompts user for yes/ no repsonse, accepts( case-insensitive).
-/// or keeps promting
+/// promts user for yes/ no response.
 /// </summary>
 /// <param name="prompt"></param>
-/// <returns>true if user enters 'y', false if'n'</returns>
+/// <returns></returns>
 bool getYesNo(string prompt)
 {
     while (true)
     {
         char c = getCharInput(prompt);
-
-        if (c == 'y')
-            return true;
-        if (c == 'n')
-            return false;
+        if (c == 'y') return true;
+        if (c == 'n') return false;
 
         cout << "ERROR: Enter Y or N.\n";
     }
 }
+
+
 /// <summary>
-/// displays main menu and promts user for selection.
-/// accepts single validated character.
+/// displays main menu options and returns validates selection.
 /// </summary>
-/// <returns>lowercase version of users charcter choice.</returns>
+/// <returns>lowercase character representing users choice.</returns>
 char displayMenuAndGetSelection()
 {
     cout << "\n============== MAIN MENU ==============\n";
@@ -150,8 +148,9 @@ char displayMenuAndGetSelection()
 
     return getCharInput("Enter selection: ");
 }
+
 /// <summary>
-/// runs main menu loop, continues running until user confirms exit.
+/// main menu loop that handles user commands until exit.
 /// </summary>
 /// <param name="trip"></param>
 /// <param name="tripSize"></param>
@@ -191,14 +190,14 @@ void runMenu(Stop* trip[], int tripSize, int speed)
     }
 }
 
+
 /// <summary>
-/// attempts to add stop pointer to trip array.
-/// adds stop to first available NULL position.
+/// adds a stop pointer to the first available stop in the array
 /// </summary>
 /// <param name="trip"></param>
 /// <param name="tripSize"></param>
 /// <param name="newStop"></param>
-/// <returns>true if stop was added, false if trip is full.</returns>
+/// <returns>true if the stop was added, false if the array is full</returns>
 bool addStop(Stop* trip[], int tripSize, Stop* newStop)
 {
     for (int i = 0; i < tripSize; i++)
@@ -209,13 +208,10 @@ bool addStop(Stop* trip[], int tripSize, Stop* newStop)
             return true;
         }
     }
-    return false; // No room
+    return false;
 }
-
 /// <summary>
-/// handles adding a stop through menu interaction.
-/// promts user for X and Y coordinates, creates stop,
-/// attempts to add to trip.
+/// handles user input to add new stop.
 /// </summary>
 /// <param name="trip"></param>
 /// <param name="tripSize"></param>
@@ -237,27 +233,23 @@ void menuAddStop(Stop* trip[], int tripSize)
         cout << "Stop added successfully.\n";
     }
 }
-
 /// <summary>
-/// retreives stop pointer from the trip based on a 1-based stop number.
+/// returns the stop pointer for a given 1- based stop number.
 /// </summary>
 /// <param name="trip"></param>
 /// <param name="tripSize"></param>
 /// <param name="stopNumber"></param>
-/// <returns>pointer to the requested stop, or null if not found.</returns>
+/// <returns>pointer to the stop object, or nullptr if invalid.</returns>
 Stop* getStopByNumber(Stop* trip[], int tripSize, int stopNumber)
 {
     int index = stopNumber - 1;
-
     if (index < 0 || index >= tripSize)
         return nullptr;
 
     return trip[index];
 }
-
 /// <summary>
-/// removes stop from the trip array by: locating pointer,
-/// deleting stop object, shifting remaining stops forward to fill.
+/// removes stop from array, deletes stop, shifts remaining stops forward.
 /// </summary>
 /// <param name="trip"></param>
 /// <param name="tripSize"></param>
@@ -282,36 +274,19 @@ void removeStop(Stop* trip[], int tripSize, Stop* stopToRemove)
         return;
 
     delete trip[index];
-    trip[index] = nullptr;
 
-    // Compact the array
-    int newIndex = index;
+    // Shift stops up
+    for (int i = index; i < tripSize - 1; i++)
+        trip[i] = trip[i + 1];
 
-    for (int i = index + 1; i < tripSize; i++)
-    {
-        if (trip[i] == nullptr)
-            break;
-
-        trip[newIndex] = trip[i];
-        newIndex++;
-    }
-
-    trip[newIndex] = nullptr;
+    trip[tripSize - 1] = nullptr;
 }
 
-/// <summary>
-/// handles deleting a stop via the menu system.
-/// promts for the stop number, validates, and removes the stop.
-/// displays error if stop does not exist.
-/// </summary>
-/// <param name="trip"></param>
-/// <param name="tripSize"></param>
 void menuDeleteStop(Stop* trip[], int tripSize)
 {
     cout << "\n=== DELETE STOP ===\n";
 
     int stopNum = getIntInRange("Enter stop number: ", 1, tripSize);
-
     Stop* s = getStopByNumber(trip, tripSize, stopNum);
 
     if (s == nullptr)
@@ -319,15 +294,14 @@ void menuDeleteStop(Stop* trip[], int tripSize)
         cout << "ERROR: Stop does not exist.\n";
         return;
     }
-    1
-        removeStop(trip, tripSize, s);
+
+    removeStop(trip, tripSize, s);
 
     cout << "Stop removed.\n";
 }
 
 /// <summary>
-/// removes all stops from the trip by deleting all stop objects,
-/// then setting each array element back to null.
+/// deletes all stops and resets the trip array to nullptr.
 /// </summary>
 /// <param name="trip"></param>
 /// <param name="tripSize"></param>
@@ -342,9 +316,9 @@ void clearTrip(Stop* trip[], int tripSize)
         }
     }
 }
+
 /// <summary>
-/// handles clearing the entire trip via menu selection.
-/// asks user for confirmation.
+/// handles clearing all stops in the trip via user confimation 
 /// </summary>
 /// <param name="trip"></param>
 /// <param name="tripSize"></param>
@@ -361,14 +335,16 @@ void menuClearTrip(Stop* trip[], int tripSize)
         cout << "Clear cancelled.\n";
     }
 }
+
+
 /// <summary>
-/// computes the straight-line distance between two coordinates.
+/// calculates straight-line disptance between two points.
 /// </summary>
 /// <param name="x1"></param>
 /// <param name="y1"></param>
 /// <param name="x2"></param>
 /// <param name="y2"></param>
-/// <returns>distance between the points as a double.</returns>
+/// <returns>distance between two points as double.</returns>
 double distanceBetween(int x1, int y1, int x2, int y2)
 {
     double dx = x2 - x1;
@@ -377,8 +353,7 @@ double distanceBetween(int x1, int y1, int x2, int y2)
 }
 
 /// <summary>
-/// displays formatted table containing: stop number, coordinates, distance from
-/// previous stop, travel time in min.
+/// displays formatted table of all stops, distances and travel time.
 /// </summary>
 /// <param name="trip"></param>
 /// <param name="tripSize"></param>
@@ -394,7 +369,7 @@ void menuViewTrip(Stop* trip[], int tripSize, int speed)
     double totalDistance = 0;
     double totalMinutes = 0;
 
-    int prevX = 0, prevY = 0; // Start at origin
+    int prevX = 0, prevY = 0;
 
     for (int i = 0; i < tripSize; i++)
     {
@@ -427,32 +402,35 @@ void menuViewTrip(Stop* trip[], int tripSize, int speed)
         << setw(27) << fixed << setprecision(2) << totalDistance
         << setw(20) << totalMinutes << "\n";
 }
+
+
 /// <summary>
-/// promts user for their travel speed in mph.
+/// promts user for travel speed and validates.
 /// </summary>
-/// <returns>validated speed as integer.</returns>
+/// <returns>users travel speed as integer</returns>
 int getSpeed()
 {
     return getIntInRange("Enter your speed (1 - 60mph): ", 1, 60);
 }
 
+
 /// <summary>
-/// program entry point.
-/// initializes trip array, gets users sppeed, runs main menu loop,
-/// clears all allocated memory, ends program cleanly 
+/// program entry point: initializes array, gets speed, runs menu, cleans up memory.
 /// </summary>
-/// <returns>0 upon seccessful completion </returns>
+/// <returns></returns>
 int main()
 {
     displayProgramInfo();
 
     const int TRIP_SIZE = 100;
-    Stop* trip[TRIP_SIZE] = {nullptr};
+    Stop* trip[TRIP_SIZE];
+
+    // Initialize array to nullptr
+    for (int i = 0; i < TRIP_SIZE; i++)
+        trip[i] = nullptr;
 
     int speed = getSpeed();
-
     runMenu(trip, TRIP_SIZE, speed);
-
     clearTrip(trip, TRIP_SIZE);
 
     cout << "Goodbye!\n";
